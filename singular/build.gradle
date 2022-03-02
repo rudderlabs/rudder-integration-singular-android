@@ -33,6 +33,8 @@ dependencies {
 
     // RudderStack android SDK
     implementation 'com.rudderstack.android.sdk:core:[1.0,)'
+    // Singular sdk
+    implementation 'com.singular.sdk:singular_sdk:12.0.0'
 }
 
 ext {
