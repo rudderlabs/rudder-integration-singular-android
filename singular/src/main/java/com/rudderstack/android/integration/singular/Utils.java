@@ -6,6 +6,7 @@ import com.rudderstack.android.sdk.core.RudderLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class Utils {
@@ -14,29 +15,24 @@ public class Utils {
             return null;
         }
         switch (getType(object)) {
-            case "Byte":
-            case "Short":
-            case "Integer":
-            case "Long":
-            case "Float":
-            case "Double":
-            case "Boolean":
-            case "Character":
-            case "ArrayList":
-            case "HashMap":
-                return object.toString();
-            case "String":
-                return (String) object;
             case "Array":
+            case "Collection":
+            case "Map":
                 return new Gson().toJson(object);
             default:
-                return null;
+                return object.toString();
         }
     }
 
     static String getType(Object object) {
         if (object.getClass().isArray()) {
             return "Array";
+        }
+        if (object instanceof Collection) {
+            return "Collection";
+        }
+        if (object instanceof Map) {
+            return "Map";
         }
         return object.getClass().getSimpleName();
     }
@@ -59,7 +55,7 @@ public class Utils {
         return 0;
     }
 
-    public static boolean isEmpty(Object value) {
+    static boolean isEmpty(Object value) {
         if(value == null){
             return true;
         }
@@ -74,6 +70,9 @@ public class Utils {
         }
         if (value instanceof Map) {
             return ((Map<?, ?>) value).size() == 0;
+        }
+        if (value instanceof Collection) {
+            return ((Collection<?>) value).size() == 0;
         }
         return false;
     }
