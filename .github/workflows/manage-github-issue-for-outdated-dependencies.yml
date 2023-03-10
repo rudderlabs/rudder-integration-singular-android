@@ -1,0 +1,32 @@
+name: Manage outdated dependencies and create issue
+
+on: 
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-outdated-dependencies:
+    runs-on: macos-latest
+    name: Check outdated dependencies and create issue if it doesn't exist
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check outdated dependencies and create issue
+        id: check-outdated-dependencies-and-create-issue
+        uses: rudderlabs/github-action-updated-dependencies-notifier@main
+        with:
+          outdated-dependency-names: "com.singular.sdk:singular_sdk"
+          directory: "singular/build.gradle"
+          alternative-dependency-lookup: "com.singular.sdk:singular_sdk"
+          alternative-dependency-lookup-url: "https://maven.singular.net/com/singular/sdk/singular_sdk/maven-metadata.xml"
+          title: "fix: update Singular SDK to the latest version"
+          assignee: "desusai7"
+          labels: "outdatedDependency"
+          color: "FBCA04"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the github issue url
+        if: steps.check-outdated-dependencies-and-create-issue.outputs.issue-url != ''
+        run: echo "The Github issue url is ${{ steps.check-outdated-dependencies-and-create-issue.outputs.issue-url }}"
