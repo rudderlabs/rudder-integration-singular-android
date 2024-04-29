@@ -6,7 +6,7 @@ More information on RudderStack can be found [here](https://github.com/rudderlab
 
 ## Integrating Singular with RudderStack's Android SDK
 
-1. Add [Singular](https://www.singular.com) as a destination in the [Dashboard](https://app.rudderstack.com/) and define ```apiToken```
+1. Add [Singular](https://www.singular.net) as a destination in the [Dashboard](https://app.rudderstack.com/) and define ```apiToken```
 
 2. Add these lines to your ```app/build.gradle```
 ```
